@@ -3,21 +3,22 @@ import React from "react";
 
 
 type ButtonType={
+    disabled:boolean
+    onClick:()=>void
     name:string
-    onClickHandler:()=>void
 }
+
 
 
 function Button(props:ButtonType){
 
-   let onclickButton=()=>props.onClickHandler()
+    let onclickButton=()=>props.onClick()
+
+    return<div>
 
 
-    return(
-        <div>
-            <button onClick={onclickButton}>{props.name}</button>
+        <button onClick={onclickButton} disabled={props.disabled}>{props.name}</button>
 
-        </div>
-    )
+    </div>
 }
 export default Button;
