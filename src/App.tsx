@@ -1,72 +1,93 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import Button from "./Button";
+import Input from "./Input";
+import s from './Items.module.css'
 
 
-function App(props: any) {
+function App() {
 
-    let [Disabled, setDisabled] = useState<boolean>(false)
+
     let [number, setNumber] = useState<number>(0)
-    let [number2, setNumber2] = useState<number>(0)
-    let [number3, setNumber3] = useState<number>(0)
-    let [error, setError] = useState<string | null>(null)
+    let [maxNumber, setMaxNumber] = useState<number>(0)
+    let [startNumber, setStartNumber] = useState<number>(0)
+    let [error, setError] = useState<string>('')
+    let [Disabled, setDisabled] = useState<boolean>(false)
+    let [message, setMessage] = useState<string>('')
 
 
     useEffect(() => {
         let valueNumber = localStorage.getItem('numbers')
         if (valueNumber) {
             let newValue = JSON.parse(valueNumber)
-            setNumber2(newValue.maxNumber)
-            setNumber3(newValue.startNumber)
+            setMaxNumber(newValue.maxNumber)
+            setStartNumber(newValue.startNumber)
             setNumber(newValue.startNumber)
         }
     }, [])
 
     useEffect(() => {
-        localStorage.setItem('numbers', JSON.stringify({maxNumber: number2, startNumber: number3}))
-    }, [number2, number3])
+        localStorage.setItem('numbers', JSON.stringify({maxNumber: maxNumber, startNumber: startNumber}))
+    }, [maxNumber, startNumber])
 
     function count() {
-        if (number < number2) {
+        if (number < maxNumber) {
             setNumber(number + 1)
-        } else {
-            setError("error")
         }
     }
 
     function reset() {
-        setNumber(number3)
+        setNumber(startNumber)
+        setError('')
     }
 
-    function num() {
-        setNumber(number3)
+    function set() {
+        setNumber(startNumber)
         setDisabled(true)
-        setError("")
+        setError('')
+        setMessage('')
     }
 
-    let onChangeInput1 = (e: ChangeEvent<HTMLInputElement>) => {
-        setNumber2(parseInt(e.currentTarget.value))
-        setError("error")
-        setError("enter values and press 'set'")
-        setDisabled(false)
 
+    let onChangeInput1 = (newValue: number) => {
+        if (newValue <= startNumber) {
+            setError("Incorrect value!")
+        } else {
+            setError('')
+            setMessage('enter values and press "set"')
+            setDisabled(false)
+        }
+        setMaxNumber(newValue)
     }
-    let onChangeInput2 = (e: ChangeEvent<HTMLInputElement>) => {
-        setDisabled(false)
-        setNumber3(parseInt(e.currentTarget.value))
-        setError("enter values and press 'set'")
+
+    let onChangeInput2 = (newValue: number) => {
+        if (newValue >= maxNumber || newValue < 0) {
+            setError("Incorrect value!")
+        } else {
+            setError('')
+            setMessage('enter values and press "set"')
+            setDisabled(false)
+        }
+        setStartNumber(newValue)
     }
+    const inputClassName = `${s.input} ${error ? s.errorInput : s.Input} `
+    const outputClassName = `${ error ? s.errorNumber : s.outputNumber} ${number===maxNumber?s.errorNumber:s.outputNumber}`
+
     return (
         <div className="App">
-            <input type={"number"} value={number2} onChange={onChangeInput1}/>
+            <div className={"InputBlock"}>
+                <Input name={"max value:"} value={maxNumber} onChanges={onChangeInput1}
+                       className={inputClassName} />
+                <Input name={"start value:"} value={startNumber} onChanges={onChangeInput2}
+                       className={inputClassName} />
+                <Button disabled={error ? !Disabled : Disabled} onClick={set} name={"set"} className={s.buttonSet}/>
+            </div>
+            <div className={"OutputBlock"}>
+                <span className={outputClassName}>{error ? error : number && message ? message : number}</span>
+                <Button disabled={number === maxNumber ? Disabled : !Disabled} name={"inc"}  onClick={count} className={s.buttonInc}/>
+                <Button disabled={!Disabled} onClick={reset} name={"res"} className={s.buttonRes}/>
 
-            <input type={"number"} value={number3} onChange={onChangeInput2}/>
-            <Button disabled={Disabled} onClick={num} name={"set"}/>
-            {error ? error : number}
-            <Button disabled={number === number2 ? Disabled : !Disabled} onClick={count} name={"inc"}/>
-            <Button disabled={!Disabled} onClick={reset} name={"res"}/>
-
-
+            </div>
         </div>
     );
 }
