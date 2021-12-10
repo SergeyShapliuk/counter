@@ -4,18 +4,11 @@
 
 
 type InputType={
-
     value:number
     onChanges:(newValue:number)=>void
     className?:string|undefined
     name:string
-
-
-
-
 }
-
-
 
 function Input({value,onChanges,className,name}:InputType){
 
@@ -23,10 +16,10 @@ function Input({value,onChanges,className,name}:InputType){
         let newValue=JSON.parse(e.currentTarget.value)
         onChanges(newValue)
     }
-
     return<div>
-       {name} <input type={"number"} value={value} onChange={onChange} className={className} />
-    </div>
 
+       {name} <input type={"number"} value={value} onChange={onChange} className={className} />
+
+    </div>
 }
 export default Input;

@@ -10,8 +10,6 @@ type ButtonType={
     className?:string|undefined
 }
 
-
-
 function Button({disabled,onClick,name,className}:ButtonType){
 
     let onclickButton=()=>onClick()

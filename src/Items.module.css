@@ -19,6 +19,15 @@
 
 
 }
+.error{
+    color: red;
+}
+.message{
+    color: #61dafb;
+}
+.MaxNumber{
+    color: red;
+}
 
 .outputNumber {
     color: inherit;
