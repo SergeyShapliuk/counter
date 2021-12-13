@@ -7,7 +7,7 @@
     font-weight: bold;
     color: #61dafb;
 }
-.InputBlock {
+.DisplaySet {
     margin: 5px;
     padding: 5px;
     flex: 0 1 auto;
@@ -18,7 +18,7 @@
     border-radius: 20px;
 
 }
-.OutputBlock {
+.DisplayOut {
     margin: 5px;
     padding: 5px;
     flex: 0 1 auto;

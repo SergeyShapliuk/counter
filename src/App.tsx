@@ -1,17 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
-import Button from "./Button";
-import Input from "./Input";
-import s from './Items.module.css'
+import Button from "./component/Button";
+import Input from "./component/Input";
+import s from './component/Items.module.css'
 
 
 function App() {
 
-    let [number, setNumber] = useState<number | null>(null)
+    let [number, setNumber] = useState<number>(0)
     let [maxNumber, setMaxNumber] = useState<number>(0)
     let [startNumber, setStartNumber] = useState<number>(0)
-   // let [message, setMessage] = useState<string>('')
-    let [error, setError] = useState<string>('enter values and press "set"')
+    let [message, setMessage] = useState<string>('enter values and press "set"')
     let [Disabled, setDisabled] = useState<boolean>(false)
 
 
@@ -30,21 +29,21 @@ function App() {
     }, [maxNumber, startNumber])
 
     function increment() {
-        if (number && number < maxNumber) {
+        if (number < maxNumber) {
             setNumber(number + 1)
-        }else {
+        }else  {
             setDisabled(false)
         }
     }
 
     function reset() {
         setNumber(startNumber)
-        setError('')
+        setMessage('')
     }
 
     function set() {
         setNumber(startNumber)
-        setError('')
+        setMessage('')
         setDisabled(true)
 
 
@@ -54,43 +53,45 @@ function App() {
     let onChangeMaxValueInput = (newValue: number) => {
         setMaxNumber(newValue)
         if (newValue <= startNumber) {
-            setError("Incorrect value!")
+            setMessage("Incorrect value!")
+            setDisabled(false)
         } else {
-            setError('enter values and press "set"')
+            setMessage('enter values and press "set"')
             setDisabled(false)
         }
     }
 
     let onChangeStartValueInput = (newValue: number) => {
         setStartNumber(newValue)
-        if (newValue >= maxNumber || newValue < 0) {
-            setError("Incorrect value!")
+        if (newValue >= maxNumber || newValue<0) {
+            setMessage("Incorrect value!")
+            setDisabled(false)
         } else {
-            setError('enter values and press "set"')
+            setMessage('enter values and press "set"')
             setDisabled(false)
         }
     }
-    const inputClassName = `${error ? s.input + ' ' + s.errorInput : s.input} `
+    const inputClassName = `${message==="Incorrect value!"? s.input + ' ' + s.errorInput : s.input} `
     const outputClassName = `${ number===maxNumber ? s.MaxNumber : s.outputNumber} `
-    const messageClassName=`${error?s.outputNumber+ ' '+s.errorNumber:s.outputNumber}`
+    const messageClassName=`${message==="Incorrect value!"?s.outputNumber+ ' '+s.errorNumber:s.outputNumber}`
 
     return (
         <div className="App">
-            <div className={"InputBlock"}>
+            <div className={"DisplaySet"}>
                 <Input name={"max value:"} value={maxNumber} onChanges={onChangeMaxValueInput}
                        className={inputClassName} />
                 <Input name={"start value:"} value={startNumber} onChanges={onChangeStartValueInput}
                        className={inputClassName} />
-                <Button disabled={Disabled} onClick={set} name={"set"} className={s.buttonSet}/>
+                <Button disabled={message==="Incorrect value!"?!Disabled:Disabled} onClick={set} name={"set"} className={s.button}/>
             </div>
-            <div className={"OutputBlock"}>
+            <div className={"DisplayOut"}>
 
-                {error ? <div className={messageClassName}>{error}</div> :
+                {message ? <div className={messageClassName}>{message}</div> :
                      <div className={outputClassName}>{number}</div>
                 }
 
-                <Button disabled={number === maxNumber ? Disabled : !Disabled} name={"inc"}  onClick={increment} className={s.buttonInc}/>
-                <Button disabled={!Disabled} onClick={reset} name={"res"} className={s.buttonRes}/>
+                <Button disabled={number === maxNumber ? Disabled : !Disabled} name={"inc"}  onClick={increment} className={s.button}/>
+               <Button disabled={!Disabled} onClick={reset} name={"res"} className={s.button}/>
 
             </div>
         </div>
