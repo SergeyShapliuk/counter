@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import DisplaySet from "./component/display/DisplaySet";
 import Display from "./component/display/Display";
+import {useDispatch, useSelector} from "react-redux";
 
 
 function App() {
@@ -10,6 +11,8 @@ function App() {
     let [startNumber, setStartNumber] = useState<number>(0)
     let [message, setMessage] = useState<string>('enter values and press "set"')
     let [disabled, setDisabled] = useState<boolean>(false)
+    const state=useSelector(state => state)
+    const dispatch=useDispatch();
     return (
         <div className="App">
 
@@ -22,6 +25,7 @@ function App() {
                         setDisabled={setDisabled}
                         setNumber={setNumber}
                         setMessage={setMessage}/>
+
             <Display number={number}
                      maxNumber={maxNumber}
                      message={message}

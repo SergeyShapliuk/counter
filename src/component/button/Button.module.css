@@ -1,0 +1,11 @@
+button {
+    font-family:inherit;
+    font-size: 25px;
+    font-weight: bold;
+    background-color: #61dafb;
+    border-radius: 10px;
+    height: 80px;
+    width: 100px;
+    margin-top: 50px;
+    outline:#61dafb 3px solid;
+}

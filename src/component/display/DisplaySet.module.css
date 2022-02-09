@@ -1,0 +1,36 @@
+.displaySet {
+    margin: 5px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    height: 400px;
+    border: 2px #61dafb solid;
+    border-radius: 20px;
+
+}
+.input {
+    width: 320px;
+    height: 60px;
+    border-radius: 10px;
+    border: 3px solid aliceblue;
+    background: #61dafb;
+    margin-top: 20px;
+    outline: #61dafb solid 2px;
+    text-align: center;
+    font-size: larger;
+    font-weight: bolder;
+
+
+}
+
+.errorInput {
+    border: 3px solid lime;
+    background: red;
+
+
+}
+button{
+    margin-left: 200px;
+
+}
