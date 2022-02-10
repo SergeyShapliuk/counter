@@ -1,42 +1,33 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './App.css';
-import DisplaySet from "./component/display/DisplaySet";
-import Display from "./component/display/Display";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
+import {AppRootStateType} from "./state/store";
+import DisplaySetWithRedux from "./component/display/DisplaySetWithRedux";
+import DisplayWithRedux from "./component/display/DisplayWithRedux";
 
 
-function App() {
-    let [number, setNumber] = useState<number>(0)
-    let [maxNumber, setMaxNumber] = useState<number>(0)
-    let [startNumber, setStartNumber] = useState<number>(0)
-    let [message, setMessage] = useState<string>('enter values and press "set"')
-    let [disabled, setDisabled] = useState<boolean>(false)
-    const state=useSelector(state => state)
-    const dispatch=useDispatch();
+function AppWithRedux() {
+    const value = useSelector<AppRootStateType, number>(state => state.counter.value)
+    const message = useSelector<AppRootStateType, string>(state => state.counter.message)
+    const startValue = useSelector<AppRootStateType, number>(state => state.counter.startValue)
+    const maxValue = useSelector<AppRootStateType, number>(state => state.counter.maxValue)
+    const disabled = useSelector<AppRootStateType, boolean>(state => state.counter.disabled)
     return (
         <div className="App">
 
-            <DisplaySet message={message}
-                        disabled={disabled}
-                        maxNumber={maxNumber}
-                        startNumber={startNumber}
-                        setMaxNumber={setMaxNumber}
-                        setStartNumber={setStartNumber}
-                        setDisabled={setDisabled}
-                        setNumber={setNumber}
-                        setMessage={setMessage}/>
+            <DisplaySetWithRedux message={message}
+                        startNumber={startValue}
+                        maxNumber={maxValue}
+                        disabled={disabled}/>
 
-            <Display number={number}
-                     maxNumber={maxNumber}
-                     message={message}
-                     startNumber={startNumber}
+            <DisplayWithRedux number={value}
+                     startNumber={startValue}
+                     maxNumber={maxValue}
                      disabled={disabled}
-                     setNumber={setNumber}
-                     setDisabled={setDisabled}
-                     setMessage={setMessage}/>
+                     message={message}/>
 
         </div>
     );
 }
 
-export default App;
+export default AppWithRedux;

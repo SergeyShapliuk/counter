@@ -1,6 +1,5 @@
 import React, {useEffect} from "react";
 import Input from "../input/Input";
-
 import s from './DisplaySet.module.css'
 import Button from "../button/Button";
 
@@ -45,8 +44,6 @@ function DisplaySet({
         setNumber(startNumber)
         setMessage('')
         setDisabled(true)
-
-
     }
 
     let onChangeMaxValueInput = (newValue: number) => {
